@@ -18,7 +18,7 @@ const schema = defineSchema({
 		text: v.string(),
 		isCompleted: v.boolean(),
 		userId: v.id("users"),
-	}),
+	}).index("userId", ["userId"]),
 });
 
 export default schema;

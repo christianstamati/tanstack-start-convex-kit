@@ -22,5 +22,5 @@ function App() {
 				<PrintTasks />
 			</Authenticated>
 		</div>
-	);
+	)
 }
