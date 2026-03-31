@@ -42,7 +42,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
 				</span>
 				<ChevronDown className="size-3.5 opacity-50" />
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end" className="min-w-[9rem]">
+			<DropdownMenuContent align="end">
 				<DropdownMenuGroup>
 					<DropdownMenuLabel>Language</DropdownMenuLabel>
 					<DropdownMenuRadioGroup
