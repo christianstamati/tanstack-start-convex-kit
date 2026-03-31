@@ -13,6 +13,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as UnauthenticatedIndexRouteImport } from './routes/_unauthenticated/index'
 import { Route as UnauthenticatedSignInRouteImport } from './routes/_unauthenticated/sign-in'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
+import { Route as UnauthenticatedDemoParaglideRouteImport } from './routes/_unauthenticated/demo/paraglide'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
@@ -33,16 +34,24 @@ const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const UnauthenticatedDemoParaglideRoute =
+  UnauthenticatedDemoParaglideRouteImport.update({
+    id: '/_unauthenticated/demo/paraglide',
+    path: '/demo/paraglide',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof UnauthenticatedIndexRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/sign-in': typeof UnauthenticatedSignInRoute
+  '/demo/paraglide': typeof UnauthenticatedDemoParaglideRoute
 }
 export interface FileRoutesByTo {
   '/': typeof UnauthenticatedIndexRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/sign-in': typeof UnauthenticatedSignInRoute
+  '/demo/paraglide': typeof UnauthenticatedDemoParaglideRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -50,24 +59,27 @@ export interface FileRoutesById {
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_unauthenticated/sign-in': typeof UnauthenticatedSignInRoute
   '/_unauthenticated/': typeof UnauthenticatedIndexRoute
+  '/_unauthenticated/demo/paraglide': typeof UnauthenticatedDemoParaglideRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/tasks' | '/sign-in'
+  fullPaths: '/' | '/tasks' | '/sign-in' | '/demo/paraglide'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/tasks' | '/sign-in'
+  to: '/' | '/tasks' | '/sign-in' | '/demo/paraglide'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_authenticated/tasks'
     | '/_unauthenticated/sign-in'
     | '/_unauthenticated/'
+    | '/_unauthenticated/demo/paraglide'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   UnauthenticatedSignInRoute: typeof UnauthenticatedSignInRoute
   UnauthenticatedIndexRoute: typeof UnauthenticatedIndexRoute
+  UnauthenticatedDemoParaglideRoute: typeof UnauthenticatedDemoParaglideRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -100,6 +112,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTasksRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_unauthenticated/demo/paraglide': {
+      id: '/_unauthenticated/demo/paraglide'
+      path: '/demo/paraglide'
+      fullPath: '/demo/paraglide'
+      preLoaderRoute: typeof UnauthenticatedDemoParaglideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -118,6 +137,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   UnauthenticatedSignInRoute: UnauthenticatedSignInRoute,
   UnauthenticatedIndexRoute: UnauthenticatedIndexRoute,
+  UnauthenticatedDemoParaglideRoute: UnauthenticatedDemoParaglideRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

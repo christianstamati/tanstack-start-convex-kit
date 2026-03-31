@@ -6,9 +6,9 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { ModeToggle } from "@/components/ModeToggle";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { getThemeServerFn } from "@/lib/theme";
+import { getLocale } from "../paraglide/runtime";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRouteWithContext<{
@@ -41,15 +41,12 @@ export const Route = createRootRouteWithContext<{
 function RootDocument({ children }: { children: React.ReactNode }) {
 	const theme = Route.useLoaderData();
 	return (
-		<html lang="en" className={theme} suppressHydrationWarning>
+		<html lang={getLocale()} className={theme} suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
 			<body>
-				<ThemeProvider theme={theme}>
-					<ModeToggle />
-					{children}
-				</ThemeProvider>
+				<ThemeProvider theme={theme}>{children}</ThemeProvider>
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",
