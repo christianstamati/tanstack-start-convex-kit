@@ -6,7 +6,17 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"ignoreUnknown": false
+		"ignoreUnknown": false,
+		"includes": [
+			"**",
+			"!**/routeTree.gen.ts",
+			"!**/convex/_generated",
+			"!**/components/ui",
+			"!**/package-lock.json",
+			"!**/pnpm-lock.yaml",
+			"!**/yarn.lock",
+			"!**/bun.lock"
+		]
 	},
 	"formatter": {
 		"enabled": true,
