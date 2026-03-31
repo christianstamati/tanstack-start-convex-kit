@@ -9,86 +9,115 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TasksRouteImport } from './routes/tasks'
-import { Route as SignInRouteImport } from './routes/sign-in'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as UnauthenticatedIndexRouteImport } from './routes/_unauthenticated/index'
+import { Route as UnauthenticatedSignInRouteImport } from './routes/_unauthenticated/sign-in'
+import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 
-const TasksRoute = TasksRouteImport.update({
-  id: '/tasks',
-  path: '/tasks',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SignInRoute = SignInRouteImport.update({
-  id: '/sign-in',
-  path: '/sign-in',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
+const UnauthenticatedIndexRoute = UnauthenticatedIndexRouteImport.update({
+  id: '/_unauthenticated/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnauthenticatedSignInRoute = UnauthenticatedSignInRouteImport.update({
+  id: '/_unauthenticated/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/sign-in': typeof SignInRoute
-  '/tasks': typeof TasksRoute
+  '/': typeof UnauthenticatedIndexRoute
+  '/tasks': typeof AuthenticatedTasksRoute
+  '/sign-in': typeof UnauthenticatedSignInRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/sign-in': typeof SignInRoute
-  '/tasks': typeof TasksRoute
+  '/': typeof UnauthenticatedIndexRoute
+  '/tasks': typeof AuthenticatedTasksRoute
+  '/sign-in': typeof UnauthenticatedSignInRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/sign-in': typeof SignInRoute
-  '/tasks': typeof TasksRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_authenticated/tasks': typeof AuthenticatedTasksRoute
+  '/_unauthenticated/sign-in': typeof UnauthenticatedSignInRoute
+  '/_unauthenticated/': typeof UnauthenticatedIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/sign-in' | '/tasks'
+  fullPaths: '/' | '/tasks' | '/sign-in'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/sign-in' | '/tasks'
-  id: '__root__' | '/' | '/sign-in' | '/tasks'
+  to: '/' | '/tasks' | '/sign-in'
+  id:
+    | '__root__'
+    | '/_authenticated'
+    | '/_authenticated/tasks'
+    | '/_unauthenticated/sign-in'
+    | '/_unauthenticated/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  SignInRoute: typeof SignInRoute
-  TasksRoute: typeof TasksRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  UnauthenticatedSignInRoute: typeof UnauthenticatedSignInRoute
+  UnauthenticatedIndexRoute: typeof UnauthenticatedIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/tasks': {
-      id: '/tasks'
-      path: '/tasks'
-      fullPath: '/tasks'
-      preLoaderRoute: typeof TasksRouteImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/sign-in': {
-      id: '/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof SignInRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/': {
-      id: '/'
+    '/_unauthenticated/': {
+      id: '/_unauthenticated/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof UnauthenticatedIndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_unauthenticated/sign-in': {
+      id: '/_unauthenticated/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof UnauthenticatedSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/tasks': {
+      id: '/_authenticated/tasks'
+      path: '/tasks'
+      fullPath: '/tasks'
+      preLoaderRoute: typeof AuthenticatedTasksRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedTasksRoute: typeof AuthenticatedTasksRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedTasksRoute: AuthenticatedTasksRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  SignInRoute: SignInRoute,
-  TasksRoute: TasksRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  UnauthenticatedSignInRoute: UnauthenticatedSignInRoute,
+  UnauthenticatedIndexRoute: UnauthenticatedIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
