@@ -6,6 +6,9 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { ModeToggle } from "@/components/ModeToggle";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { getThemeServerFn } from "@/lib/theme";
 import appCss from "../styles.css?url";
 
 export const Route = createRootRouteWithContext<{
@@ -31,17 +34,22 @@ export const Route = createRootRouteWithContext<{
 			},
 		],
 	}),
+	loader: () => getThemeServerFn(),
 	shellComponent: RootDocument,
 });
 
 function RootDocument({ children }: { children: React.ReactNode }) {
+	const theme = Route.useLoaderData();
 	return (
-		<html lang="en">
+		<html lang="en" className={theme} suppressHydrationWarning>
 			<head>
 				<HeadContent />
 			</head>
 			<body>
-				{children}
+				<ThemeProvider theme={theme}>
+					<ModeToggle />
+					{children}
+				</ThemeProvider>
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",
