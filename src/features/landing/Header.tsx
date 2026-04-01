@@ -15,7 +15,7 @@ export function Header({ className }: { className?: string }) {
 					to="/"
 					className="font-semibold text-foreground tracking-tight hover:opacity-90"
 				>
-					TanStack Start Convex Kit
+					TSCK
 				</Link>
 				<nav className="flex items-center gap-2">
 					<Button
