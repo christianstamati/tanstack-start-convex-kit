@@ -10,21 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
-import { Route as UnauthenticatedIndexRouteImport } from './routes/_unauthenticated/index'
 import { Route as UnauthenticatedVerifyEmailRouteImport } from './routes/_unauthenticated/verify-email'
 import { Route as UnauthenticatedSignUpRouteImport } from './routes/_unauthenticated/sign-up'
 import { Route as UnauthenticatedSignInRouteImport } from './routes/_unauthenticated/sign-in'
 import { Route as UnauthenticatedResetPasswordRouteImport } from './routes/_unauthenticated/reset-password'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
+import { Route as UnauthenticatedLandingRouteRouteImport } from './routes/_unauthenticated/_landing/route'
+import { Route as UnauthenticatedLandingIndexRouteImport } from './routes/_unauthenticated/_landing/index'
 import { Route as UnauthenticatedDemoParaglideRouteImport } from './routes/_unauthenticated/demo/paraglide'
 
 const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
   id: '/_authenticated',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const UnauthenticatedIndexRoute = UnauthenticatedIndexRouteImport.update({
-  id: '/_unauthenticated/',
-  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const UnauthenticatedVerifyEmailRoute =
@@ -54,6 +50,17 @@ const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
   path: '/tasks',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const UnauthenticatedLandingRouteRoute =
+  UnauthenticatedLandingRouteRouteImport.update({
+    id: '/_unauthenticated/_landing',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const UnauthenticatedLandingIndexRoute =
+  UnauthenticatedLandingIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => UnauthenticatedLandingRouteRoute,
+  } as any)
 const UnauthenticatedDemoParaglideRoute =
   UnauthenticatedDemoParaglideRouteImport.update({
     id: '/_unauthenticated/demo/paraglide',
@@ -62,7 +69,7 @@ const UnauthenticatedDemoParaglideRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof UnauthenticatedIndexRoute
+  '/': typeof UnauthenticatedLandingIndexRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/reset-password': typeof UnauthenticatedResetPasswordRoute
   '/sign-in': typeof UnauthenticatedSignInRoute
@@ -71,7 +78,7 @@ export interface FileRoutesByFullPath {
   '/demo/paraglide': typeof UnauthenticatedDemoParaglideRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof UnauthenticatedIndexRoute
+  '/': typeof UnauthenticatedLandingIndexRoute
   '/tasks': typeof AuthenticatedTasksRoute
   '/reset-password': typeof UnauthenticatedResetPasswordRoute
   '/sign-in': typeof UnauthenticatedSignInRoute
@@ -82,13 +89,14 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/_unauthenticated/_landing': typeof UnauthenticatedLandingRouteRouteWithChildren
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
   '/_unauthenticated/reset-password': typeof UnauthenticatedResetPasswordRoute
   '/_unauthenticated/sign-in': typeof UnauthenticatedSignInRoute
   '/_unauthenticated/sign-up': typeof UnauthenticatedSignUpRoute
   '/_unauthenticated/verify-email': typeof UnauthenticatedVerifyEmailRoute
-  '/_unauthenticated/': typeof UnauthenticatedIndexRoute
   '/_unauthenticated/demo/paraglide': typeof UnauthenticatedDemoParaglideRoute
+  '/_unauthenticated/_landing/': typeof UnauthenticatedLandingIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -112,22 +120,23 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_authenticated'
+    | '/_unauthenticated/_landing'
     | '/_authenticated/tasks'
     | '/_unauthenticated/reset-password'
     | '/_unauthenticated/sign-in'
     | '/_unauthenticated/sign-up'
     | '/_unauthenticated/verify-email'
-    | '/_unauthenticated/'
     | '/_unauthenticated/demo/paraglide'
+    | '/_unauthenticated/_landing/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  UnauthenticatedLandingRouteRoute: typeof UnauthenticatedLandingRouteRouteWithChildren
   UnauthenticatedResetPasswordRoute: typeof UnauthenticatedResetPasswordRoute
   UnauthenticatedSignInRoute: typeof UnauthenticatedSignInRoute
   UnauthenticatedSignUpRoute: typeof UnauthenticatedSignUpRoute
   UnauthenticatedVerifyEmailRoute: typeof UnauthenticatedVerifyEmailRoute
-  UnauthenticatedIndexRoute: typeof UnauthenticatedIndexRoute
   UnauthenticatedDemoParaglideRoute: typeof UnauthenticatedDemoParaglideRoute
 }
 
@@ -138,13 +147,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_unauthenticated/': {
-      id: '/_unauthenticated/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof UnauthenticatedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_unauthenticated/verify-email': {
@@ -182,6 +184,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTasksRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_unauthenticated/_landing': {
+      id: '/_unauthenticated/_landing'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof UnauthenticatedLandingRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_unauthenticated/_landing/': {
+      id: '/_unauthenticated/_landing/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof UnauthenticatedLandingIndexRouteImport
+      parentRoute: typeof UnauthenticatedLandingRouteRoute
+    }
     '/_unauthenticated/demo/paraglide': {
       id: '/_unauthenticated/demo/paraglide'
       path: '/demo/paraglide'
@@ -203,13 +219,28 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
 const AuthenticatedRouteRouteWithChildren =
   AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
 
+interface UnauthenticatedLandingRouteRouteChildren {
+  UnauthenticatedLandingIndexRoute: typeof UnauthenticatedLandingIndexRoute
+}
+
+const UnauthenticatedLandingRouteRouteChildren: UnauthenticatedLandingRouteRouteChildren =
+  {
+    UnauthenticatedLandingIndexRoute: UnauthenticatedLandingIndexRoute,
+  }
+
+const UnauthenticatedLandingRouteRouteWithChildren =
+  UnauthenticatedLandingRouteRoute._addFileChildren(
+    UnauthenticatedLandingRouteRouteChildren,
+  )
+
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  UnauthenticatedLandingRouteRoute:
+    UnauthenticatedLandingRouteRouteWithChildren,
   UnauthenticatedResetPasswordRoute: UnauthenticatedResetPasswordRoute,
   UnauthenticatedSignInRoute: UnauthenticatedSignInRoute,
   UnauthenticatedSignUpRoute: UnauthenticatedSignUpRoute,
   UnauthenticatedVerifyEmailRoute: UnauthenticatedVerifyEmailRoute,
-  UnauthenticatedIndexRoute: UnauthenticatedIndexRoute,
   UnauthenticatedDemoParaglideRoute: UnauthenticatedDemoParaglideRoute,
 }
 export const routeTree = rootRouteImport
