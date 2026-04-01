@@ -71,7 +71,10 @@ export function SignUp() {
 				lastName: value.lastName,
 				email: value.email,
 				password: value.password,
-				redirectTo: "/sign-in",
+				navigateOpts: {
+					to: "/verify-email",
+					search: { email: value.email },
+				},
 			});
 		},
 	});

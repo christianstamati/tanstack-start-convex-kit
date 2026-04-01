@@ -1,6 +1,10 @@
 import { useAuthActions } from "@convex-dev/auth/react";
 import { type UseMutationOptions, useMutation } from "@tanstack/react-query";
-import { type LinkProps, useNavigate } from "@tanstack/react-router";
+import {
+	type LinkProps,
+	type NavigateOptions,
+	useNavigate,
+} from "@tanstack/react-router";
 import type { Value } from "convex/values";
 
 /**
@@ -147,7 +151,7 @@ type SignUpWithCredentialsVariables = {
 	lastName: string;
 	email: string;
 	password: string;
-	redirectTo?: LinkProps["to"];
+	navigateOpts?: NavigateOptions;
 };
 export const useSignUpWithCredentials = (
 	options?: Omit<
@@ -159,15 +163,15 @@ export const useSignUpWithCredentials = (
 	const navigate = useNavigate();
 	return useMutation<void, Error, SignUpWithCredentialsVariables>({
 		...options,
-		mutationFn: ({ firstName, lastName, email, password, redirectTo }) => {
+		mutationFn: ({ firstName, lastName, email, password, navigateOpts }) => {
 			return signIn("password", {
 				name: `${firstName} ${lastName}`,
 				email,
 				password,
 				flow: "signUp",
 			}).then(() => {
-				if (redirectTo) {
-					navigate({ to: redirectTo });
+				if (navigateOpts) {
+					void navigate(navigateOpts);
 				}
 			});
 		},

@@ -1,5 +1,19 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
+import type { Doc, Id } from "./_generated/dataModel";
+import type { MutationCtx } from "./_generated/server";
 import { authMutation, authQuery } from "./lib/authFunctions";
+
+async function requireTaskForUser(
+	ctx: MutationCtx,
+	taskId: Id<"tasks">,
+	userId: Id<"users">,
+): Promise<Doc<"tasks">> {
+	const task = await ctx.db.get(taskId);
+	if (!task || task.userId !== userId) {
+		throw new ConvexError("NOT_FOUND");
+	}
+	return task;
+}
 
 export const list = authQuery({
 	args: {},
@@ -31,6 +45,7 @@ export const update = authMutation({
 		}),
 	},
 	handler: async (ctx, args) => {
+		await requireTaskForUser(ctx, args.id, ctx.userId);
 		return ctx.db.patch(args.id, args.payload);
 	},
 });
@@ -39,6 +54,7 @@ export const remove = authMutation({
 		id: v.id("tasks"),
 	},
 	handler: async (ctx, args) => {
+		await requireTaskForUser(ctx, args.id, ctx.userId);
 		return ctx.db.delete(args.id);
 	},
 });

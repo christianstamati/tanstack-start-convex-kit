@@ -24,7 +24,7 @@ const formSchema = z.object({
 });
 
 type VerifyEmailProps = {
-	email?: string;
+	email: string;
 };
 
 export function VerifyEmail({ email }: VerifyEmailProps) {
@@ -45,10 +45,6 @@ export function VerifyEmail({ email }: VerifyEmailProps) {
 			onSubmit: formSchema,
 		},
 		onSubmit: ({ value }) => {
-			if (!email) {
-				toast.error("Invalid verification link");
-				return;
-			}
 			verifyEmail({
 				code: value.code,
 				email,
@@ -59,22 +55,6 @@ export function VerifyEmail({ email }: VerifyEmailProps) {
 
 	const isSubmitting = useStore(form.store, (state) => state.isSubmitting);
 	const submitting = isSubmitting || isPending;
-
-	if (!email) {
-		return (
-			<div className="flex min-h-screen w-full items-center justify-center bg-muted p-4">
-				<Card className="w-full max-w-md">
-					<CardHeader className="space-y-2">
-						<CardTitle className="text-lg md:text-xl">Invalid Link</CardTitle>
-						<CardDescription className="text-xs md:text-sm">
-							This verification link is missing a valid email. Open the link
-							from your verification email, or sign in to request a new one.
-						</CardDescription>
-					</CardHeader>
-				</Card>
-			</div>
-		);
-	}
 
 	return (
 		<div className="flex min-h-screen w-full items-center justify-center p-4">
