@@ -14,7 +14,7 @@ export function UserInfo() {
 
 	if (isLoading) {
 		return (
-			<Card>
+			<Card className="w-full max-w-md">
 				<CardHeader className="space-y-2">
 					<Skeleton className="h-7 w-[min(100%,14rem)]" />
 					<Skeleton className="h-4 w-[min(100%,12rem)]" />

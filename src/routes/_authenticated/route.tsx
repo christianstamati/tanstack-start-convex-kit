@@ -10,14 +10,21 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/_authenticated")({
 	component: RouteComponent,
 });
 
-function CenteredShell({ children }: { children: React.ReactNode }) {
+function CenteredShell({
+	children,
+	className,
+}: {
+	children: React.ReactNode;
+	className?: string;
+}) {
 	return (
-		<div className="flex min-h-dvh items-center justify-center p-4">
+		<div className={cn("flex items-center justify-center p-4", className)}>
 			{children}
 		</div>
 	);
@@ -27,8 +34,8 @@ function RouteComponent() {
 	return (
 		<>
 			<AuthLoading>
-				<CenteredShell>
-					<Card className="w-full max-w-sm" size="sm">
+				<CenteredShell className="h-fit">
+					<Card className="w-full max-w-md" size="sm">
 						<CardHeader className="space-y-2">
 							<Skeleton className="h-4 w-28" />
 							<Skeleton className="h-3 w-full" />
@@ -41,7 +48,7 @@ function RouteComponent() {
 			</AuthLoading>
 			<Unauthenticated>
 				<CenteredShell>
-					<Card className="w-full max-w-sm" size="sm">
+					<Card className="w-full max-w-md" size="sm">
 						<CardHeader>
 							<CardTitle>Sign in required</CardTitle>
 							<CardDescription>

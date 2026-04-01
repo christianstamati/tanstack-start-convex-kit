@@ -3,6 +3,8 @@ import { ConvexQueryClient } from "@convex-dev/react-query";
 import { QueryClient } from "@tanstack/react-query";
 import { createRouter } from "@tanstack/react-router";
 import { setupRouterSsrQueryIntegration } from "@tanstack/react-router-ssr-query";
+import { DefaultErrorComponent } from "./components/DefaultErrorComponent.js";
+import { DefaultNotFoundComponent } from "./components/DefaultNotFoundComponent.js";
 import { deLocalizeUrl, localizeUrl } from "./paraglide/runtime.js";
 import { routeTree } from "./routeTree.gen";
 
@@ -38,6 +40,8 @@ export function getRouter() {
 				{children}
 			</ConvexAuthProvider>
 		),
+		defaultErrorComponent: DefaultErrorComponent,
+		defaultNotFoundComponent: DefaultNotFoundComponent,
 	});
 	setupRouterSsrQueryIntegration({ router, queryClient });
 

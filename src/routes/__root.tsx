@@ -6,6 +6,7 @@ import {
 	Scripts,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { getThemeServerFn } from "@/lib/theme";
 import { getLocale } from "../paraglide/runtime";
@@ -47,6 +48,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
 			</head>
 			<body>
 				<ThemeProvider theme={theme}>{children}</ThemeProvider>
+				<Toaster richColors />
 				<TanStackDevtools
 					config={{
 						position: "bottom-right",

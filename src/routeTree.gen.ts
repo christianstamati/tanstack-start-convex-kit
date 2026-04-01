@@ -11,7 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as UnauthenticatedIndexRouteImport } from './routes/_unauthenticated/index'
+import { Route as UnauthenticatedVerifyEmailRouteImport } from './routes/_unauthenticated/verify-email'
+import { Route as UnauthenticatedSignUpRouteImport } from './routes/_unauthenticated/sign-up'
 import { Route as UnauthenticatedSignInRouteImport } from './routes/_unauthenticated/sign-in'
+import { Route as UnauthenticatedResetPasswordRouteImport } from './routes/_unauthenticated/reset-password'
 import { Route as AuthenticatedTasksRouteImport } from './routes/_authenticated/tasks'
 import { Route as UnauthenticatedDemoParaglideRouteImport } from './routes/_unauthenticated/demo/paraglide'
 
@@ -24,11 +27,28 @@ const UnauthenticatedIndexRoute = UnauthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnauthenticatedVerifyEmailRoute =
+  UnauthenticatedVerifyEmailRouteImport.update({
+    id: '/_unauthenticated/verify-email',
+    path: '/verify-email',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const UnauthenticatedSignUpRoute = UnauthenticatedSignUpRouteImport.update({
+  id: '/_unauthenticated/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const UnauthenticatedSignInRoute = UnauthenticatedSignInRouteImport.update({
   id: '/_unauthenticated/sign-in',
   path: '/sign-in',
   getParentRoute: () => rootRouteImport,
 } as any)
+const UnauthenticatedResetPasswordRoute =
+  UnauthenticatedResetPasswordRouteImport.update({
+    id: '/_unauthenticated/reset-password',
+    path: '/reset-password',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedTasksRoute = AuthenticatedTasksRouteImport.update({
   id: '/tasks',
   path: '/tasks',
@@ -44,40 +64,69 @@ const UnauthenticatedDemoParaglideRoute =
 export interface FileRoutesByFullPath {
   '/': typeof UnauthenticatedIndexRoute
   '/tasks': typeof AuthenticatedTasksRoute
+  '/reset-password': typeof UnauthenticatedResetPasswordRoute
   '/sign-in': typeof UnauthenticatedSignInRoute
+  '/sign-up': typeof UnauthenticatedSignUpRoute
+  '/verify-email': typeof UnauthenticatedVerifyEmailRoute
   '/demo/paraglide': typeof UnauthenticatedDemoParaglideRoute
 }
 export interface FileRoutesByTo {
   '/': typeof UnauthenticatedIndexRoute
   '/tasks': typeof AuthenticatedTasksRoute
+  '/reset-password': typeof UnauthenticatedResetPasswordRoute
   '/sign-in': typeof UnauthenticatedSignInRoute
+  '/sign-up': typeof UnauthenticatedSignUpRoute
+  '/verify-email': typeof UnauthenticatedVerifyEmailRoute
   '/demo/paraglide': typeof UnauthenticatedDemoParaglideRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/_authenticated/tasks': typeof AuthenticatedTasksRoute
+  '/_unauthenticated/reset-password': typeof UnauthenticatedResetPasswordRoute
   '/_unauthenticated/sign-in': typeof UnauthenticatedSignInRoute
+  '/_unauthenticated/sign-up': typeof UnauthenticatedSignUpRoute
+  '/_unauthenticated/verify-email': typeof UnauthenticatedVerifyEmailRoute
   '/_unauthenticated/': typeof UnauthenticatedIndexRoute
   '/_unauthenticated/demo/paraglide': typeof UnauthenticatedDemoParaglideRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/tasks' | '/sign-in' | '/demo/paraglide'
+  fullPaths:
+    | '/'
+    | '/tasks'
+    | '/reset-password'
+    | '/sign-in'
+    | '/sign-up'
+    | '/verify-email'
+    | '/demo/paraglide'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/tasks' | '/sign-in' | '/demo/paraglide'
+  to:
+    | '/'
+    | '/tasks'
+    | '/reset-password'
+    | '/sign-in'
+    | '/sign-up'
+    | '/verify-email'
+    | '/demo/paraglide'
   id:
     | '__root__'
     | '/_authenticated'
     | '/_authenticated/tasks'
+    | '/_unauthenticated/reset-password'
     | '/_unauthenticated/sign-in'
+    | '/_unauthenticated/sign-up'
+    | '/_unauthenticated/verify-email'
     | '/_unauthenticated/'
     | '/_unauthenticated/demo/paraglide'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  UnauthenticatedResetPasswordRoute: typeof UnauthenticatedResetPasswordRoute
   UnauthenticatedSignInRoute: typeof UnauthenticatedSignInRoute
+  UnauthenticatedSignUpRoute: typeof UnauthenticatedSignUpRoute
+  UnauthenticatedVerifyEmailRoute: typeof UnauthenticatedVerifyEmailRoute
   UnauthenticatedIndexRoute: typeof UnauthenticatedIndexRoute
   UnauthenticatedDemoParaglideRoute: typeof UnauthenticatedDemoParaglideRoute
 }
@@ -98,11 +147,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnauthenticatedIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_unauthenticated/verify-email': {
+      id: '/_unauthenticated/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof UnauthenticatedVerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_unauthenticated/sign-up': {
+      id: '/_unauthenticated/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof UnauthenticatedSignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_unauthenticated/sign-in': {
       id: '/_unauthenticated/sign-in'
       path: '/sign-in'
       fullPath: '/sign-in'
       preLoaderRoute: typeof UnauthenticatedSignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_unauthenticated/reset-password': {
+      id: '/_unauthenticated/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof UnauthenticatedResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/tasks': {
@@ -135,7 +205,10 @@ const AuthenticatedRouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  UnauthenticatedResetPasswordRoute: UnauthenticatedResetPasswordRoute,
   UnauthenticatedSignInRoute: UnauthenticatedSignInRoute,
+  UnauthenticatedSignUpRoute: UnauthenticatedSignUpRoute,
+  UnauthenticatedVerifyEmailRoute: UnauthenticatedVerifyEmailRoute,
   UnauthenticatedIndexRoute: UnauthenticatedIndexRoute,
   UnauthenticatedDemoParaglideRoute: UnauthenticatedDemoParaglideRoute,
 }

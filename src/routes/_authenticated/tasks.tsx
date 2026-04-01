@@ -9,7 +9,7 @@ export const Route = createFileRoute("/_authenticated/tasks")({
 
 function App() {
 	return (
-		<div className="mx-auto flex max-w-md flex-col gap-4 p-4">
+		<div className="mx-auto flex w-full max-w-md flex-col gap-4 pt-4">
 			<UserInfo />
 			<TaskList />
 			<PrintTasks />
