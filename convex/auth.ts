@@ -27,7 +27,7 @@ export const ResendOTP = Resend({
 			from: "My App <onboarding@resend.dev>",
 			to: [email],
 			subject: "Verify your email",
-			text: "Your verification code is " + token,
+			text: `Your verification code is ${token}`,
 		});
 
 		if (error) {
