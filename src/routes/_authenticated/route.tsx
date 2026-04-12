@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet } from "@tanstack/react-router";
 import { Authenticated, AuthLoading, Unauthenticated } from "convex/react";
-
+import { AppSidebar } from "@/components/AppSidebar";
+import { Spinner } from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -9,22 +10,15 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import { cn } from "@/lib/utils";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export const Route = createFileRoute("/_authenticated")({
 	component: RouteComponent,
 });
 
-function CenteredShell({
-	children,
-	className,
-}: {
-	children: React.ReactNode;
-	className?: string;
-}) {
+function CenterContent({ children }: { children: React.ReactNode }) {
 	return (
-		<div className={cn("flex items-center justify-center p-4", className)}>
+		<div className="flex h-svh w-full items-center justify-center">
 			{children}
 		</div>
 	);
@@ -34,21 +28,13 @@ function RouteComponent() {
 	return (
 		<>
 			<AuthLoading>
-				<CenteredShell className="h-fit">
-					<Card className="w-full max-w-md" size="sm">
-						<CardHeader className="space-y-2">
-							<Skeleton className="h-4 w-28" />
-							<Skeleton className="h-3 w-full" />
-						</CardHeader>
-						<CardContent>
-							<Skeleton className="h-8 w-full rounded-lg" />
-						</CardContent>
-					</Card>
-				</CenteredShell>
+				<CenterContent>
+					<Spinner />
+				</CenterContent>
 			</AuthLoading>
 			<Unauthenticated>
-				<CenteredShell>
-					<Card className="w-full max-w-md" size="sm">
+				<CenterContent>
+					<Card className="w-full max-w-md">
 						<CardHeader>
 							<CardTitle>Sign in required</CardTitle>
 							<CardDescription>
@@ -64,10 +50,15 @@ function RouteComponent() {
 							</Button>
 						</CardContent>
 					</Card>
-				</CenteredShell>
+				</CenterContent>
 			</Unauthenticated>
 			<Authenticated>
-				<Outlet />
+				<SidebarProvider>
+					<AppSidebar />
+					<SidebarInset className="flex min-h-svh min-w-0 flex-col">
+						<Outlet />
+					</SidebarInset>
+				</SidebarProvider>
 			</Authenticated>
 		</>
 	);

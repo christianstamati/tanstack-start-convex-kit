@@ -29,9 +29,9 @@ export function TaskList() {
 		setDraft("");
 	}
 	return (
-		<Card className="w-full max-w-md">
+		<Card className="w-full">
 			<CardHeader className="flex items-center justify-between">
-				<CardTitle>Tasks</CardTitle>
+				<CardTitle>Task list</CardTitle>
 				<Button
 					variant="destructive"
 					size={"icon"}
