@@ -1,0 +1,8 @@
+{
+	"aiFiles": {
+		"enabled": true,
+		"skills": {
+			"agents": ["claude-code", "codex", "cursor"]
+		}
+	}
+}

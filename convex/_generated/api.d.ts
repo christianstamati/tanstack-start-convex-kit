@@ -11,6 +11,7 @@
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as lib_authFunctions from "../lib/authFunctions.js";
+import type * as lib_resendProviders from "../lib/resendProviders.js";
 import type * as sessions from "../sessions.js";
 import type * as tasks from "../tasks.js";
 import type * as users from "../users.js";
@@ -25,6 +26,7 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
   "lib/authFunctions": typeof lib_authFunctions;
+  "lib/resendProviders": typeof lib_resendProviders;
   sessions: typeof sessions;
   tasks: typeof tasks;
   users: typeof users;
